@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/forgot_passwords', {
+      const response = await fetch('http://localhost:3000/password_resets', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -22,8 +22,7 @@ const ForgotPassword = () => {
       });
 
       if (response.ok) {
-        // Rediriger vers une page de confirmation ou afficher un message de succès
-        // Par exemple : navigate('/resetPasswordConfirmation');
+        navigate('/')
         console.log('Email de réinitialisation envoyé avec succès');
       } else {
         const data = await response.json();

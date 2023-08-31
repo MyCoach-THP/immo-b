@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const ResetPassword = () => {
-  const { token } = useParams(); // Récupère le token de réinitialisation depuis les paramètres d'URL
+  const { token } = useParams();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
@@ -20,8 +20,8 @@ const ResetPassword = () => {
 
     if (password === confirmPassword) {
       try {
-        const response = await fetch(`http://localhost:3000/reset_passwords/${token}`, {
-          method: 'PUT',
+        const response = await fetch(`http://localhost:3000/password_resets/${token}`, {
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -29,8 +29,6 @@ const ResetPassword = () => {
         });
 
         if (response.ok) {
-          // Rediriger vers une page de confirmation ou afficher un message de succès
-          // Par exemple : navigate('/passwordResetConfirmation');
           console.log('Mot de passe réinitialisé avec succès');
         } else {
           const data = await response.json();

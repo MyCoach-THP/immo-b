@@ -19,6 +19,7 @@ import OwnerDashboard from './pages/OwnerDashboard';
 import NewProperty from './pages/NewProperty';
 import EditProperty from './pages/EditProperty';
 import PropertyDetails from './pages/PropertyDetails';
+import ResetPassword from './pages/resetPassword'
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -109,7 +110,8 @@ function App() {
             <Route path="/bouton3" element={<Bouton3 />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/forgotPassword" element={<ForgotPassword />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/resetpassword/:token" element={<ResetPassword />} />
           </Routes>
         </Router>
       </div>
