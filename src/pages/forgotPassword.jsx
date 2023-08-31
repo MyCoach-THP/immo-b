@@ -11,7 +11,7 @@ const ForgotPassword = () => {
 
   const handleSendResetEmail = async event => {
     event.preventDefault();
-  
+
     try {
       const response = await fetch('http://localhost:3000/forgot_passwords', {
         method: 'POST',
@@ -20,7 +20,7 @@ const ForgotPassword = () => {
         },
         body: JSON.stringify({ email })
       });
-  
+
       if (response.ok) {
         // Rediriger vers une page de confirmation ou afficher un message de succès
         // Par exemple : navigate('/resetPasswordConfirmation');
@@ -35,7 +35,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div>
+    <div className='secondaryContainer'>
       <h2>Mot de passe oublié</h2>
       <form onSubmit={handleSendResetEmail}>
         <div>

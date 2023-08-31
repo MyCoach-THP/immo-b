@@ -45,7 +45,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div>
+    <div className='secondaryContainer'>
       <h2>Réinitialisation du mot de passe</h2>
       <form onSubmit={handleResetPassword}>
         <div>

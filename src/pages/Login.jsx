@@ -38,7 +38,9 @@ const Login = () => {
       body: JSON.stringify(requestData)
     })
       .then(response => {
+        console.log(response)
         if (response.ok) {
+          console.log(response.headers)
           const authHeader = response.headers.get("Authorization");
           authToken = authHeader.split(" ")[1];
           return response.json();
@@ -48,13 +50,13 @@ const Login = () => {
       })
       .then(data => {
         const userId = data.user.id
-        setAuthState({ isLoggedIn: true, token: authToken, userId: userId });
+        setAuthState({ isLoggedIn: true, token: authToken, user_id: userId });
         const cookieObj = {
           token: authToken,
-          userId: userId
+          user_id: userId
         }
         Cookies.set('authTokenCookie', JSON.stringify(cookieObj))
-        navigate('/articles');
+        navigate('/properties');
         console.log('Réponse de connexion :', data);
       })
       .catch(error => {
@@ -63,10 +65,10 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='secondaryContainer'>
       <h2>Connexion</h2>
       <form onSubmit={handleLogin}>
-        <div>
+        <div className='m-4'>
           <label htmlFor="email">Email :</label>
           <input
             type="email"
@@ -74,6 +76,7 @@ const Login = () => {
             value={email}
             onChange={handleEmailChange}
             required
+            className='ml-4'
           />
         </div>
         <div>
@@ -84,9 +87,10 @@ const Login = () => {
             value={password}
             onChange={handlePasswordChange}
             required
+            className='ml-4'
           />
         </div>
-        <button type="submit">Se connecter</button>
+        <button type="submit" className='m-4'>Se connecter</button>
       </form>
       <div>
         <Link to="/forgotPassword">Mot de passe oublié</Link>

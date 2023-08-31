@@ -54,7 +54,7 @@ const Register = () => {
           userId: userId
         };
         Cookies.set('authTokenCookie', JSON.stringify(cookieObj));
-        navigate('/articles');
+        navigate('/Properties');
         console.log('Réponse d\'inscription :', data);
       })
       .catch(error => {
@@ -63,7 +63,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className='secondaryContainer'>
       <h2>Inscription</h2>
       <form onSubmit={handleRegister}>
         <div>

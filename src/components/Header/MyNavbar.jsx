@@ -16,8 +16,8 @@ export default function MyNavbar() {
 
   const navigation = [
     { name: 'Accueil', to: '/', current: false },
-    { name: 'Articles', to: '/articles', current: false },
-    { name: 'Bouton2', to: '/bouton2', current: false },
+    { name: 'Propriétés', to: '/properties', current: false },
+    { name: 'Mes biens', to: '/owner', current: false },
     { name: 'Bouton3', to: '/bouton3', current: false },
   ]
 
@@ -33,6 +33,7 @@ export default function MyNavbar() {
     }
     setAuthState(newAuthState)
     Cookies.remove('authTokenCookie')
+    console.log(authState)
   }
 
   useEffect(() => {

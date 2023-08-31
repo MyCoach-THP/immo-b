@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
 import ThemeContext from './theme/themecontext'
 import MyNavbar from './components/Header/MyNavbar'
-import Articles from './pages/Articles';
+import Properties from './pages/Properties';
 import Bouton2 from './pages/Bouton2';
 import Bouton3 from './pages/Bouton3';
 import Login from './pages/Login';
@@ -15,7 +14,11 @@ import { useAtom } from 'jotai';
 import { authAtom } from './components/atoms'
 import Cookies from 'js-cookie';
 import ForgotPassword from './pages/forgotPassword';
-
+import Hero from './pages/Hero';
+import OwnerDashboard from './pages/OwnerDashboard';
+import NewProperty from './pages/NewProperty';
+import EditProperty from './pages/EditProperty';
+import PropertyDetails from './pages/PropertyDetails';
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -32,7 +35,7 @@ function App() {
       setAuthState({
         isLoggedIn: true,
         token: userInfo.token,
-        userId: userInfo.userId,
+        user_id: userInfo.user_id,
         username: userInfo.username
       });
     }
@@ -96,8 +99,12 @@ function App() {
             </div>
           )}
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/articles" element={<Articles />} />
+            <Route path="/" element={<Hero />} />
+            <Route path="/properties" element={<Properties />} />
+            <Route path="/properties/:propertyId" element={<PropertyDetails />} />
+            <Route path="/owner" element={<OwnerDashboard />} />
+            <Route path="/NewProperty" element={<NewProperty />} />
+            <Route path="/EditProperty/:id" element={<EditProperty />} />
             <Route path="/bouton2" element={<Bouton2 />} />
             <Route path="/bouton3" element={<Bouton3 />} />
             <Route path="/login" element={<Login />} />
