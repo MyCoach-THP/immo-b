@@ -177,3 +177,8 @@ button:focus-visible {
 .property-card-typography {
   color: #F6F6F6;
 }
+
+.leaflet-container {
+  height: 400px; /* Hauteur souhaitée */
+  width: 800px; /* Largeur souhaitée */
+}

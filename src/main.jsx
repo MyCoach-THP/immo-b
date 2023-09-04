@@ -20,6 +20,7 @@ import NewProperty from './pages/NewProperty';
 import EditProperty from './pages/EditProperty';
 import PropertyDetails from './pages/PropertyDetails';
 import ResetPassword from './pages/resetPassword'
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
