@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import PropertyCard from '../components/PropertyCard';
+import React, { useState, useEffect } from "react";
+import PropertyCard from "../components/PropertyCard";
 
 const Properties = () => {
   const [properties, setProperties] = useState([]);
   const [city, setCity] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/properties')
-      .then(response => response.json())
-      .then(data => setProperties(data))
-      .catch(error => console.error('Une erreur s\'est produite :', error));
+    fetch("http://localhost:3000/properties")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setProperties(data);
+        } else {
+          console.error("Received data is not an array:", data);
+        }
+      })
+      .catch((error) => console.error("An error occurred:", error));
   }, []);
-
+  
   let visibleProperties = properties.filter(property => !property.private)
 
   const handleCityChange = (e) => {
@@ -57,12 +68,13 @@ const Properties = () => {
               description={property.description}
               price={property.price}
               city={property.city}
+              photoUrls={property.photoUrls}
             />
           )).reverse()
         )}
       </div>
     </div>
   );
-}
+};
 
 export default Properties;

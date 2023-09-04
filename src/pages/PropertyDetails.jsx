@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 const PropertyDetails = () => {
   const { propertyId } = useParams();
   const [property, setProperty] = useState(null);
-  const [ownerEmail, setOwnerEmail] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3000/properties/${propertyId}`)
-      .then(response => response.json())
-      .then(data => setProperty(data))
-      .catch(error => console.error('Une erreur s\'est produite :', error));
+      .then((response) => response.json())
+      .then((data) => {
+        setProperty(data);
+      })
+      .catch((error) => console.error("Une erreur s'est produite :", error));
   }, [propertyId]);
 
   if (!property) {
@@ -21,9 +22,15 @@ const PropertyDetails = () => {
   return (
     <div className='secondaryContainer'>
       <h2 className='property-title'>{property.title}</h2>
-      <div className='property-image'>
-        <img src="../src/assets/preview.avif" alt="Property" />
-      </div>
+      {property.photo_urls ? (
+        <div className='property-images'>
+          {property.photo_urls.map((url, index) => (
+            <img key={index} src={url} alt={`Property ${index + 1}`} />
+          ))}
+        </div>
+      ) : (
+        <p>No photos available.</p>
+      )}
       <div className='property-city'>Ville: {property.city}</div>
       <div className='property-description'>{property.description}</div>
       <div className='property-price'>Prix : {property.price} €</div>
