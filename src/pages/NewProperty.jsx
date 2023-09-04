@@ -5,10 +5,12 @@ import { authAtom } from "../components/atoms";
 
 const NewProperty = () => {
   const [authState, setAuthState] = useAtom(authAtom);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [photo, setPhoto] = useState(null); // New state for photo
+  const [city, setCity] = useState('');
   const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
@@ -20,6 +22,10 @@ const NewProperty = () => {
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
+  
+  const handleCityChange = event => {
+    setCity(event.target.value.toUpperCase());
+  }
   const handlePhotoChange = (event) => {
     setPhoto(event.target.files[0]); // New handler for photo
   };
@@ -30,6 +36,7 @@ const NewProperty = () => {
     formData.append("property[title]", title);
     formData.append("property[description]", description);
     formData.append("property[price]", price);
+    formData.append("property[city]", city);
 
     if (photo) {
       formData.append("property[photos][]", photo); // Attach photo if it exists
@@ -66,6 +73,10 @@ const NewProperty = () => {
             value={title}
             onChange={handleTitleChange}
           />
+        </label>
+        <label>
+          Ville:
+          <input type="text" name="city" value={city} onChange={handleCityChange} />
         </label>
         <label>
           Description:
