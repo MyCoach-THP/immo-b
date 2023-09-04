@@ -38,15 +38,14 @@ const EditProperty = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("property[title]", title);
     formData.append("property[description]", description);
     formData.append("property[price]", price);
     if (photo) {
-      formData.append("property[photo]", photo);
+      formData.append("property[photos][]", photo); // Use '[]' to indicate an array of files
     }
-
-    e.preventDefault();
     try {
       const response = await fetch(`http://localhost:3000/properties/${id}`, {
         method: "PUT",
@@ -57,6 +56,8 @@ const EditProperty = () => {
       });
 
       if (response.ok) {
+
+        
         navigate("/owner");
       } else {
         console.error("Error updating property");

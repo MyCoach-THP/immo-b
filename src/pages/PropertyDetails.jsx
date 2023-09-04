@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
@@ -8,9 +8,12 @@ const PropertyDetails = () => {
 
   useEffect(() => {
     fetch(`http://localhost:3000/properties/${propertyId}`)
-      .then(response => response.json())
-      .then(data => setProperty(data))
-      .catch(error => console.error('Une erreur s\'est produite :', error));
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Log the fetched data
+        setProperty(data);
+      })
+      .catch((error) => console.error("Une erreur s'est produite :", error));
   }, [propertyId]);
 
   if (!property) {
@@ -20,9 +23,17 @@ const PropertyDetails = () => {
   return (
     <div className='secondaryContainer'>
       <h2 className='property-title'>{property.title}</h2>
-      <div className='property-image'>
-        <img src="../src/assets/preview.avif" alt="Property" />
-      </div>
+
+      {property.photoUrls ? (
+        <div className='property-images'>
+          {property.photoUrls.map((url, index) => (
+            <img key={index} src={url} alt={`Property ${index + 1}`} />
+          ))}
+        </div>
+      ) : (
+        <p>No photos available.</p>
+      )}
+
       <div className='property-description'>{property.description}</div>
       <div className='property-price'>Prix : {property.price} €</div>
       <div className='property-owner'>Propriétaire : {property.user.email}</div>
