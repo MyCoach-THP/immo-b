@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
@@ -26,6 +27,7 @@ const PropertyDetails = () => {
       <div className='property-description'>{property.description}</div>
       <div className='property-price'>Prix : {property.price} €</div>
       <div className='property-owner'>Propriétaire : {property.user.email}</div>
+      <Link className = "mt-5" to = "/">Revenir à la page d'accueil</Link>
     </div>
   );
 };
