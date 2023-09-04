@@ -48,10 +48,10 @@ const Register = () => {
       })
       .then(data => {
         const userId = data.user.id;
-        setAuthState({ isLoggedIn: true, token: authToken, userId: userId });
+        setAuthState({ isLoggedIn: true, token: authToken, user_id: userId });
         const cookieObj = {
           token: authToken,
-          userId: userId
+          user_id: userId
         };
         Cookies.set('authTokenCookie', JSON.stringify(cookieObj));
         navigate('/Properties');
