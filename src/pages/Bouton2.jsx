@@ -16,6 +16,7 @@ const Bouton2 = () => {
           'Authorization': `Bearer ${authState.token}`,
           'Content-Type': 'application/json'
         }
+        
       });
       if (response.ok) {
         console.log(response.ok);
