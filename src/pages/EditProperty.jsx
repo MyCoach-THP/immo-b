@@ -11,15 +11,18 @@ const EditProperty = () => {
   const [price, setPrice] = useState(0);
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
+  const [photoURL, setPhotoURL] = useState("");
 
   useEffect(() => {
-    // Récupérez les détails de la propriété à partir de l'API et initialisez les états
     fetch(`http://localhost:3000/properties/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setTitle(data.title);
         setDescription(data.description);
         setPrice(data.price);
+        if (data.photo_urls && data.photo_urls.length > 0) {
+          setPhotoURL(data.photo_urls[0]); // Assume first URL is the main photo
+        }
       })
       .catch((error) => console.error("Une erreur s'est produite :", error));
   }, [id]);
@@ -56,8 +59,12 @@ const EditProperty = () => {
       });
 
       if (response.ok) {
+        const updatedProperty = await response.json();
+        setTitle(updatedProperty.title);
+        setDescription(updatedProperty.description);
+        setPrice(updatedProperty.price);
+        setPhotoURL(updatedProperty.photo_url);
 
-        
         navigate("/owner");
       } else {
         console.error("Error updating property");
@@ -104,6 +111,7 @@ const EditProperty = () => {
 
         <button type='submit'>Mettre à jour</button>
       </form>
+      <img src={photoURL} alt='Property' />
     </div>
   );
 };
