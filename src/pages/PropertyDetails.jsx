@@ -22,7 +22,7 @@ const PropertyDetails = () => {
   return (
     <div className='secondaryContainer'>
       <h2 className='property-title'>{property.title}</h2>
-      <div className='property-image'>
+      <div className='property-image mb-5'>
         <img src="../src/assets/preview.avif" alt="Property" />
       </div>
       <MapWorld/>

@@ -179,6 +179,7 @@ button:focus-visible {
 }
 
 .leaflet-container {
+  margin-bottom: 30px;
   height: 400px; /* Hauteur souhaitée */
   width: 800px; /* Largeur souhaitée */
 }
