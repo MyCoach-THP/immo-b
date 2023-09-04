@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
@@ -23,9 +24,11 @@ const PropertyDetails = () => {
       <div className='property-image'>
         <img src="../src/assets/preview.avif" alt="Property" />
       </div>
+      <div className='property-city'>Ville: {property.city}</div>
       <div className='property-description'>{property.description}</div>
       <div className='property-price'>Prix : {property.price} €</div>
       <div className='property-owner'>Propriétaire : {property.user.email}</div>
+      <Link className="m-10" to="/">Page d'accueil</Link>
     </div>
   );
 };

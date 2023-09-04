@@ -7,7 +7,8 @@ const NewProperty = () => {
   const [authState, setAuthState] = useAtom(authAtom);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState(0)
+  const [price, setPrice] = useState(0);
+  const [city, setCity] = useState('');
   const navigate = useNavigate();
 
   const handleTitleChange = event => {
@@ -19,11 +20,15 @@ const NewProperty = () => {
   const handlePriceChange = event => {
     setPrice(event.target.value);
   }
+  const handleCityChange = event => {
+    setCity(event.target.value.toUpperCase());
+  }
 
   const handleSubmit = async (e) => {
     const requestData = {
       title: title,
       description: description,
+      city: city,
       price: price
     };
 
@@ -55,6 +60,10 @@ const NewProperty = () => {
         <label>
           Titre:
           <input type="text" name="title" value={title} onChange={handleTitleChange} />
+        </label>
+        <label>
+          Ville:
+          <input type="text" name="city" value={city} onChange={handleCityChange} />
         </label>
         <label>
           Description:
