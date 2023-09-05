@@ -10,34 +10,44 @@ const EditProperty = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const navigate = useNavigate();
-  const [photo, setPhoto] = useState(null);
-  const [photoURL, setPhotoURL] = useState("");
+  const [photos, setPhotos] = useState([]);
+  const [photoData, setPhotoData] = useState([]);
+
+  const fetchPropertyDetails = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/properties/${id}`);
+      const data = await response.json();
+      setTitle(data.title);
+      setDescription(data.description);
+      setPrice(data.price);
+
+      if (data.photo_urls && data.photo_urls.length > 0) {
+        setPhotoData(data.photo_urls);
+      }
+    } catch (error) {
+      console.error("Une erreur s'est produite :", error);
+    }
+  };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/properties/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTitle(data.title);
-        setDescription(data.description);
-        setPrice(data.price);
-        if (data.photo_urls && data.photo_urls.length > 0) {
-          setPhotoURL(data.photo_urls[0]); // Assume first URL is the main photo
-        }
-      })
-      .catch((error) => console.error("Une erreur s'est produite :", error));
+    fetchPropertyDetails();
   }, [id]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
+
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
+
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
+
   const handlePhotoChange = (event) => {
-    setPhoto(event.target.files[0]);
+    const files = Array.from(event.target.files);
+    setPhotos(files);
   };
 
   const handleSubmit = async (e) => {
@@ -46,9 +56,13 @@ const EditProperty = () => {
     formData.append("property[title]", title);
     formData.append("property[description]", description);
     formData.append("property[price]", price);
-    if (photo) {
-      formData.append("property[photos][]", photo); // Use '[]' to indicate an array of files
+
+    if (photos.length > 0) {
+      photos.forEach((photo, index) => {
+        formData.append("property[photos][]", photo); // Use '[]' to indicate it's an array of files
+      });
     }
+
     try {
       const response = await fetch(`http://localhost:3000/properties/${id}`, {
         method: "PUT",
@@ -59,15 +73,32 @@ const EditProperty = () => {
       });
 
       if (response.ok) {
-        const updatedProperty = await response.json();
-        setTitle(updatedProperty.title);
-        setDescription(updatedProperty.description);
-        setPrice(updatedProperty.price);
-        setPhotoURL(updatedProperty.photo_url);
-
+        fetchPropertyDetails();
         navigate("/owner");
       } else {
         console.error("Error updating property");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
+  const deletePhoto = async (photoId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/properties/${id}/delete_photo?photo_id=${photoId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${authState.token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        fetchPropertyDetails();
+      } else {
+        console.error("Error deleting photo");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -106,12 +137,27 @@ const EditProperty = () => {
         </label>
         <label>
           Photo:
-          <input type='file' name='photo' onChange={handlePhotoChange} />
+          <input
+            type='file'
+            name='photos'
+            onChange={handlePhotoChange}
+            multiple
+          />
         </label>
-
         <button type='submit'>Mettre à jour</button>
       </form>
-      <img src={photoURL} alt='Property' />
+      <h3>Existing Photos:</h3>
+      {photoData && photoData.length > 0 ? (
+        photoData.map((url, index) => (
+          <div key={index}>
+            <img src={url} alt={`Property ${index + 1}`} />
+            <button onClick={() => deletePhoto(index)}>Delete</button>{" "}
+            {/* Assuming index can be used to identify photo for deletion */}
+          </div>
+        ))
+      ) : (
+        <p>No existing photos.</p>
+      )}
     </div>
   );
 };

@@ -9,8 +9,8 @@ const NewProperty = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [photo, setPhoto] = useState(null); // New state for photo
-  const [city, setCity] = useState('');
+  const [photos, setPhotos] = useState([]);
+  const [city, setCity] = useState("");
   const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
@@ -22,12 +22,13 @@ const NewProperty = () => {
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
-  
-  const handleCityChange = event => {
+
+  const handleCityChange = (event) => {
     setCity(event.target.value.toUpperCase());
-  }
+  };
   const handlePhotoChange = (event) => {
-    setPhoto(event.target.files[0]); // New handler for photo
+    const files = Array.from(event.target.files);
+    setPhotos(files);
   };
 
   const handleSubmit = async (e) => {
@@ -38,8 +39,10 @@ const NewProperty = () => {
     formData.append("property[price]", price);
     formData.append("property[city]", city);
 
-    if (photo) {
-      formData.append("property[photos][]", photo); // Attach photo if it exists
+    if (photos.length > 0) {
+      photos.forEach((photo, index) => {
+        formData.append(`property[photos][]`, photo);
+      });
     }
 
     try {
@@ -76,7 +79,12 @@ const NewProperty = () => {
         </label>
         <label>
           Ville:
-          <input type="text" name="city" value={city} onChange={handleCityChange} />
+          <input
+            type='text'
+            name='city'
+            value={city}
+            onChange={handleCityChange}
+          />
         </label>
         <label>
           Description:
@@ -97,8 +105,12 @@ const NewProperty = () => {
         </label>
         <label>
           Photo:
-          <input type='file' name='photo' onChange={handlePhotoChange} />{" "}
-          {/* New input for photo */}
+          <input
+            type='file'
+            name='photos'
+            onChange={handlePhotoChange}
+            multiple
+          />
         </label>
         <button type='submit'>Créer</button>
       </form>
