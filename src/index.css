@@ -186,3 +186,9 @@ button:focus-visible {
 form * {
   color: black;
 }
+
+.leaflet-container {
+  margin-bottom: 30px;
+  height: 400px;
+  width: 800px;
+}
