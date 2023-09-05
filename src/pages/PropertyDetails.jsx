@@ -17,7 +17,7 @@ const PropertyDetails = () => {
   }, [propertyId]);
 
   if (!property) {
-    return <div className = 'loading-message'>Chargement en cours...</div>;
+    return <div className='loading-message'>Chargement en cours...</div>;
   }
 
   return (
@@ -32,7 +32,7 @@ const PropertyDetails = () => {
       ) : (
         <p>No photos available.</p>
       )}
-      <MapWorld/>
+      <MapWorld city={property.city} />
       <div className='property-city'>Ville: {property.city}</div>
       <div className='property-description'>{property.description}</div>
       <div className='property-price'>Prix : {property.price} €</div>
