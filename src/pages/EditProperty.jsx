@@ -21,9 +21,10 @@ const EditProperty = () => {
       setDescription(data.description);
       setPrice(data.price);
 
-      if (data.photo_urls && data.photo_urls.length > 0) {
-        setPhotoData(data.photo_urls);
-      }
+      let tmpPhotos = [];
+      data.photos.forEach(p=>{  tmpPhotos.push(p);})
+      setPhotoData(tmpPhotos);
+
     } catch (error) {
       console.error("Une erreur s'est produite :", error);
     }
@@ -148,11 +149,10 @@ const EditProperty = () => {
       </form>
       <h3>Existing Photos:</h3>
       {photoData && photoData.length > 0 ? (
-        photoData.map((url, index) => (
-          <div key={index}>
-            <img src={url} alt={`Property ${index + 1}`} />
-            <button onClick={() => deletePhoto(index)}>Delete</button>{" "}
-            {/* Assuming index can be used to identify photo for deletion */}
+        photoData.map(p => (
+          <div key={p.id}>
+            <img src={p.url} alt={`Property ${p.id + 1}`} />
+            <button onClick={() => deletePhoto(p.id)}>Delete</button>{" "}
           </div>
         ))
       ) : (
