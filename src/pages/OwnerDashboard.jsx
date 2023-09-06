@@ -39,19 +39,21 @@ const OwnerDashboard = () => {
     }
   };
 
+  const visibleProperties = userProperties.filter(property => !property.private)
+
   return (
     <div className='secondaryContainer'>
       <h2>Tableau de bord du propriétaire</h2>
       <Link to="/newProperty">Créer une nouvelle annonce</Link>
       <ul>
-        {userProperties.map(property => (
+        {visibleProperties.map(property => (
           <li key={property.id}>
             <h3>{property.title}</h3>
             <p>visible : {property.private ? 'non' : 'oui'}</p>
             <p>{property.description}</p>
             <Link to={`/EditProperty/${property.id}`}>Editer</Link>
             <button onClick={() => handleToggleVisibility(property.id, property.private)}>
-              {property.private ? 'Privé' : 'Public'}
+              Supprimer
             </button>
           </li>
         ))}
