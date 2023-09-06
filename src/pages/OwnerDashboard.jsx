@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { Link } from 'react-router-dom';
 import { authAtom } from '../components/atoms'
+import { API_BASE_URL } from "../../config";
 
 const OwnerDashboard = () => {
   const [authState, setAuthState] = useAtom(authAtom);
@@ -10,25 +11,25 @@ const OwnerDashboard = () => {
 
   useEffect(() => {
     console.log(authState)
-    fetch(`http://localhost:3000/properties?user_id=${authState.user_id}`, {
-      method: 'GET',
+    fetch(`${API_BASE_URL}/properties?user_id=${authState.user_id}`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${authState.token}`,
       },
     })
-      .then(response => response.json())
-      .then(data => setUserProperties(data))
-      .catch(error => console.error('Une erreur s\'est produite :', error));
+      .then((response) => response.json())
+      .then((data) => setUserProperties(data))
+      .catch((error) => console.error("Une erreur s'est produite :", error));
   }, [authState, refreshToggle]);
 
   const handleToggleVisibility = async (propertyId, currentVisibility) => {
     try {
       const newVisibility = !currentVisibility;
-      await fetch(`http://localhost:3000/properties/${propertyId}`, {
-        method: 'PATCH',
+      await fetch(`${API_BASE_URL}/properties/${propertyId}`, {
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authState.token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authState.token}`,
         },
         body: JSON.stringify({ private: newVisibility }),
       });

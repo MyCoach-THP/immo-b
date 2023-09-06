@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { authAtom } from '../components/atoms'
 import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { API_BASE_URL } from "../../config";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -30,37 +31,37 @@ const Login = () => {
       }
     };
 
-    fetch('http://localhost:3000/users/sign_in', {
-      method: 'POST',
+    fetch(`${API_BASE_URL}/users/sign_in`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestData)
+      body: JSON.stringify(requestData),
     })
-      .then(response => {
-        console.log(response)
+      .then((response) => {
+        console.log(response);
         if (response.ok) {
-          console.log(response.headers)
+          console.log(response.headers);
           const authHeader = response.headers.get("Authorization");
           authToken = authHeader.split(" ")[1];
           return response.json();
         } else {
-          throw new Error('La connexion a échoué');
+          throw new Error("La connexion a échoué");
         }
       })
-      .then(data => {
-        const userId = data.user.id
+      .then((data) => {
+        const userId = data.user.id;
         setAuthState({ isLoggedIn: true, token: authToken, user_id: userId });
         const cookieObj = {
           token: authToken,
-          user_id: userId
-        }
-        Cookies.set('authTokenCookie', JSON.stringify(cookieObj))
-        navigate('/properties');
-        console.log('Réponse de connexion :', data);
+          user_id: userId,
+        };
+        Cookies.set("authTokenCookie", JSON.stringify(cookieObj));
+        navigate("/properties");
+        console.log("Réponse de connexion :", data);
       })
-      .catch(error => {
-        console.error('Erreur de connexion :', error);
+      .catch((error) => {
+        console.error("Erreur de connexion :", error);
       });
   };
 

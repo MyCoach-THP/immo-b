@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAtom } from 'jotai';
 import { authAtom } from '../components/atoms'
+import { API_BASE_URL } from "../../config";
 
 
 const Bouton2 = () => {
@@ -10,13 +11,12 @@ const Bouton2 = () => {
   const handleButton = async (e) => {
 
     try {
-      const response = await fetch('http://localhost:3000/member-data', {
-        method: 'GET',
+      const response = await fetch(`${API_BASE_URL}/member-data`, {
+        method: "GET",
         headers: {
-          'Authorization': `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
-        }
-        
+          Authorization: `Bearer ${authState.token}`,
+          "Content-Type": "application/json",
+        },
       });
       if (response.ok) {
         console.log(response.ok);

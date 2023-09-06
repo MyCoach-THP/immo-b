@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import MapWorld from '../components/Leaflet/WorldMap';
+import { API_BASE_URL } from "../../config";
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
   const [property, setProperty] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/properties/${propertyId}`)
+    fetch(`${API_BASE_URL}/properties/${propertyId}`)
       .then((response) => response.json())
       .then((data) => {
         setProperty(data);

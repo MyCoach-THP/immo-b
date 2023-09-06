@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { authAtom } from '../components/atoms'
+import { API_BASE_URL } from "../../config";
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -30,35 +31,35 @@ const Register = () => {
       }
     };
 
-    fetch('http://localhost:3000/users', {
-      method: 'POST',
+    fetch(`${API_BASE_URL}/users`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestData)
+      body: JSON.stringify(requestData),
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           const authHeader = response.headers.get("Authorization");
           authToken = authHeader.split(" ")[1];
           return response.json();
         } else {
-          throw new Error('Inscription échouée');
+          throw new Error("Inscription échouée");
         }
       })
-      .then(data => {
+      .then((data) => {
         const userId = data.user.id;
         setAuthState({ isLoggedIn: true, token: authToken, user_id: userId });
         const cookieObj = {
           token: authToken,
-          user_id: userId
+          user_id: userId,
         };
-        Cookies.set('authTokenCookie', JSON.stringify(cookieObj));
-        navigate('/Properties');
-        console.log('Réponse d\'inscription :', data);
+        Cookies.set("authTokenCookie", JSON.stringify(cookieObj));
+        navigate("/Properties");
+        console.log("Réponse d'inscription :", data);
       })
-      .catch(error => {
-        console.error('Erreur d\'inscription :', error);
+      .catch((error) => {
+        console.error("Erreur d'inscription :", error);
       });
   };
 

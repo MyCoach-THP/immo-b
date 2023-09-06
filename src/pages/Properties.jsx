@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PropertyCard from "../components/PropertyCard";
+import { API_BASE_URL } from "../../config";
 
 const Properties = () => {
   const [properties, setProperties] = useState([]);
   const [city, setCity] = useState('');
 
   useEffect(() => {
-    fetch("http://localhost:3000/properties")
+    fetch(`${API_BASE_URL}/properties`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -31,7 +32,7 @@ const Properties = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/properties?city=${city}`);
+      const response = await fetch(`${API_BASE_URL}/properties?city=${city}`);
       if (response.ok) {
         const data = await response.json();
         setProperties(data)
