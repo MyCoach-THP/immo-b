@@ -6,12 +6,13 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
 
 export default function PropertyCard({ id }) {
   const [property, setProperty] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/properties/${id}`)
+    fetch(`${API_BASE_URL}/properties/${id}`) // J'ai supprimé le "properties" redondant.
       .then((response) => response.json())
       .then((data) => {
         setProperty(data);
@@ -23,17 +24,18 @@ export default function PropertyCard({ id }) {
     return <div className='loading-message'>Chargement en cours...</div>;
   }
 
-  const { title, description, price, photo_urls } = property;
+  const { title, description, price, photos } = property; // J'ai changé "photo_urls" à "photos".
 
   const truncatedTitle =
     title.length > 23 ? title.substring(0, 20) + "..." : title;
   const truncatedDescription =
     description.length > 50
-      ? description.substring(0, 50) + "..."
+      ? description.substring(0, 47) + "..."
       : description;
+
   const firstPhotoUrl =
-    property.photos && property.photos.length > 0
-      ? property.photos[0].url
+    photos && photos.length > 0 // J'ai utilisé "photos" ici au lieu de "property.photos".
+      ? photos[0].url
       : "https://wallpapercave.com/wp/wp4110643.jpg";
 
   return (

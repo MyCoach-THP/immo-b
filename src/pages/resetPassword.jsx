@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_BASE_URL } from "../../config";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -20,13 +21,16 @@ const ResetPassword = () => {
 
     if (password === confirmPassword) {
       try {
-        const response = await fetch(`http://localhost:3000/password_resets/${token}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ password })
-        });
+        const response = await fetch(
+          `${API_BASE_URL}/password_resets/${token}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ password }),
+          }
+        );
 
         if (response.ok) {
           console.log('Mot de passe réinitialisé avec succès');

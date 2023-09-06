@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { authAtom } from "../components/atoms";
+import { API_BASE_URL } from "../../config";
 
 const EditProperty = () => {
   const [authState, setAuthState] = useAtom(authAtom);
@@ -15,7 +16,7 @@ const EditProperty = () => {
 
   const fetchPropertyDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/properties/${id}`);
+      const response = await fetch(`${API_BASE_URL}/properties/${id}`);
       const data = await response.json();
       setTitle(data.title);
       setDescription(data.description);
@@ -60,12 +61,12 @@ const EditProperty = () => {
 
     if (photos.length > 0) {
       photos.forEach((photo, index) => {
-        formData.append("property[photos][]", photo); // Use '[]' to indicate it's an array of files
+        formData.append("property[photos][]", photo); // Utilisez '[]' pour indiquer qu'il s'agit d'un tableau de fichiers
       });
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/properties/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/properties/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${authState.token}`,
@@ -74,10 +75,17 @@ const EditProperty = () => {
       });
 
       if (response.ok) {
+        const data = await response.json(); // Suppose que la réponse est un JSON valide
         fetchPropertyDetails();
         navigate("/owner");
       } else {
-        console.error("Error updating property");
+        if (response.headers.get("Content-Type") === "application/json") {
+          const errorData = await response.json();
+          console.error("Error updating property:", errorData);
+        } else {
+          const text = await response.text();
+          console.error("Error updating property. Server response:", text);
+        }
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -87,7 +95,7 @@ const EditProperty = () => {
   const deletePhoto = async (photoId) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/properties/${id}/delete_photo?photo_id=${photoId}`,
+        `${API_BASE_URL}/properties/${id}/delete_photo?photo_id=${photoId}`,
         {
           method: "DELETE",
           headers: {
