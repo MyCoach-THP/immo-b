@@ -23,23 +23,27 @@ const PropertyDetails = () => {
   return (
     <div className='secondaryContainer'>
       <h2 className='property-title'>{property.title}</h2>
-      {property.photo_urls ? (
-        <div className='property-images'>
-          {property.photo_urls.map((url, index) => (
-            <img key={index} src={url} alt={`Property ${index + 1}`} />
-          ))}
-        </div>
+      <h3>Existing Photos:</h3>
+      {property.photos && property.photos.length > 0 ? (
+        property.photos.map((photo) => (
+          <div key={photo.id}>
+            <img src={photo.url} alt={`Property ${photo.id + 1}`} />
+          </div>
+        ))
       ) : (
-        <p>No photos available.</p>
+        <p>No existing photos.</p>
       )}
       <MapWorld city={property.city} />
       <div className='property-city'>Ville: {property.city}</div>
       <div className='property-description'>{property.description}</div>
       <div className='property-price'>Prix : {property.price} €</div>
       <div className='property-owner'>Propriétaire : {property.user.email}</div>
-      <Link className="m-10" to="/">Page d'accueil</Link>
+      <Link className='m-10' to='/'>
+        Page d'accueil
+      </Link>
     </div>
   );
 };
+
 
 export default PropertyDetails;

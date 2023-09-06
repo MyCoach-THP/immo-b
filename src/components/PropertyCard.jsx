@@ -32,8 +32,8 @@ export default function PropertyCard({ id }) {
       ? description.substring(0, 50) + "..."
       : description;
   const firstPhotoUrl =
-    photo_urls && photo_urls.length > 0
-      ? photo_urls[0]
+    property.photos && property.photos.length > 0
+      ? property.photos[0].url
       : "https://wallpapercave.com/wp/wp4110643.jpg";
 
   return (
